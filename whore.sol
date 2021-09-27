@@ -1,6 +1,4 @@
-/**
- *Submitted for verification at BscScan.com on 2021-03-16
-*/
+
 
 pragma solidity 0.5.10;
 
@@ -32,10 +30,10 @@ contract Context {
 }
 
 /**
- * @dev Interface of the IBEP20 standard as defined in the EIP. Does not include
+ * @dev Interface of the IERC20 standard as defined in the EIP. Does not include
  * the optional functions; to access them see {ERC20Detailed}.
  */
-interface IBEP20 {
+interface IERC20 {
     /**
      * @dev Returns the amount of tokens in existence.
      */
@@ -287,7 +285,7 @@ library SafeMath {
 }
 
 /**
- * @dev Implementation of the {TRC20} interface.
+ * @dev Implementation of the {ERC20} interface.
  *
  * This implementation is agnostic to the way tokens are created. This means
  * that a supply mechanism has to be added in a derived contract using {_mint}.
@@ -308,9 +306,9 @@ library SafeMath {
  *
  * Finally, the non-standard {decreaseAllowance} and {increaseAllowance}
  * functions have been added to mitigate the well-known issues around setting
- * allowances. See {TRC20-approve}.
+ * allowances. See {ERC20-approve}.
  */
-contract CSE_Binance is Context, IBEP20 {
+contract WHS is Context, IERC20 {
     using SafeMath for uint256;
 
     mapping(address => uint256) private _balances;
@@ -325,21 +323,21 @@ contract CSE_Binance is Context, IBEP20 {
     }
 
     /**
-     * @dev See {TRC20-totalSupply}.
+     * @dev See {ERC20-totalSupply}.
      */
     function totalSupply() public view returns (uint256) {
         return _totalSupply;
     }
 
     /**
-     * @dev See {TRC20-balanceOf}.
+     * @dev See {ERC20-balanceOf}.
      */
     function balanceOf(address account) public view returns (uint256) {
         return _balances[account];
     }
 
     /**
-     * @dev See {TRC20-transfer}.
+     * @dev See {ERC20-transfer}.
      *
      * Requirements:
      *
@@ -352,7 +350,7 @@ contract CSE_Binance is Context, IBEP20 {
     }
 
     /**
-     * @dev See {TRC20-allowance}.
+     * @dev See {ERC20-allowance}.
      */
     function allowance(address owner, address spender)
         public
@@ -363,7 +361,7 @@ contract CSE_Binance is Context, IBEP20 {
     }
 
     /**
-     * @dev See {TRC20-approve}.
+     * @dev See {ERC20-approve}.
      *
      * Requirements:
      *
@@ -375,7 +373,7 @@ contract CSE_Binance is Context, IBEP20 {
     }
 
     /**
-     * @dev See {TRC20-transferFrom}.
+     * @dev See {ERC20-transferFrom}.
      *
      * Emits an {Approval} event indicating the updated allowance. This is not
      * required by the EIP. See the note at the beginning of {ERC20};
@@ -397,7 +395,7 @@ contract CSE_Binance is Context, IBEP20 {
             _msgSender(),
             _allowances[sender][_msgSender()].sub(
                 amount,
-                "IBEP20: transfer amount exceeds allowance"
+                "IERC20: transfer amount exceeds allowance"
             )
         );
         return true;
@@ -407,7 +405,7 @@ contract CSE_Binance is Context, IBEP20 {
      * @dev Atomically increases the allowance granted to `spender` by the caller.
      *
      * This is an alternative to {approve} that can be used as a mitigation for
-     * problems described in {TRC20-approve}.
+     * problems described in {ERC20-approve}.
      *
      * Emits an {Approval} event indicating the updated allowance.
      *
@@ -431,7 +429,7 @@ contract CSE_Binance is Context, IBEP20 {
      * @dev Atomically decreases the allowance granted to `spender` by the caller.
      *
      * This is an alternative to {approve} that can be used as a mitigation for
-     * problems described in {TRC20-approve}.
+     * problems described in {ERC20-approve}.
      *
      * Emits an {Approval} event indicating the updated allowance.
      *
@@ -450,7 +448,7 @@ contract CSE_Binance is Context, IBEP20 {
             spender,
             _allowances[_msgSender()][spender].sub(
                 subtractedValue,
-                "IBEP20: decreased allowance below zero"
+                "IERC20: decreased allowance below zero"
             )
         );
         return true;
@@ -475,8 +473,8 @@ contract CSE_Binance is Context, IBEP20 {
         address recipient,
         uint256 amount
     ) internal {
-        require(sender != address(0), "IBEP20: transfer from the zero address");
-        require(recipient != address(0), "IBEP20: transfer to the zero address");
+        require(sender != address(0), "IERC20: transfer from the zero address");
+        require(recipient != address(0), "IERC20: transfer to the zero address");
 
         _balances[sender] = _balances[sender].sub(
             amount,
@@ -496,7 +494,7 @@ contract CSE_Binance is Context, IBEP20 {
      * - `to` cannot be the zero address.
      */
     function _mint(address account, uint256 amount) internal {
-        require(account != address(0), "IBEP20: mint to the zero address");
+        require(account != address(0), "IERC20: mint to the zero address");
 
         _totalSupply = _totalSupply.add(amount);
         _balances[account] = _balances[account].add(amount);
@@ -508,7 +506,7 @@ contract CSE_Binance is Context, IBEP20 {
      * total supply.
      */
     function burn(uint256 amount) external {
-        require(_balances[msg.sender] >= amount, "IBEP20: not enough balance!");
+        require(_balances[msg.sender] >= amount, "IERC20: not enough balance!");
 
         _burn(msg.sender, amount);
     }
@@ -525,11 +523,11 @@ contract CSE_Binance is Context, IBEP20 {
      * - `account` must have at least `amount` tokens.
      */
     function _burn(address account, uint256 amount) internal {
-        require(account != address(0), "IBEP20: burn from the zero address");
+        require(account != address(0), "IERC20: burn from the zero address");
 
         _balances[account] = _balances[account].sub(
             amount,
-            "IBEP20: burn amount exceeds balance"
+            "IERC20: burn amount exceeds balance"
         );
         _totalSupply = _totalSupply.sub(amount);
         emit Transfer(account, address(0), amount);
@@ -553,8 +551,8 @@ contract CSE_Binance is Context, IBEP20 {
         address spender,
         uint256 amount
     ) internal {
-        require(owner != address(0), "IBEP20: approve from the zero address");
-        require(spender != address(0), "IBEP20: approve to the zero address");
+        require(owner != address(0), "IERC20: approve from the zero address");
+        require(spender != address(0), "IERC20: approve to the zero address");
 
         _allowances[owner][spender] = amount;
         emit Approval(owner, spender, amount);
@@ -573,13 +571,13 @@ contract CSE_Binance is Context, IBEP20 {
             _msgSender(),
             _allowances[account][_msgSender()].sub(
                 amount,
-                "IBEP20: burn amount exceeds allowance"
+                "IERC20: burn amount exceeds allowance"
             )
         );
     }
 }
 
-contract GlobalsAndUtility is CSE_Binance {
+contract GlobalsAndUtility is WHS {
     /*  XfLobbyEnter
      */
     event XfLobbyEnter(
@@ -656,18 +654,18 @@ contract GlobalsAndUtility is CSE_Binance {
 
     /* Flush address */
     address payable internal constant FLUSH_ADDR =
-        0xeF6ed43EB8Ff15E336D64d1468947cA1046824E6;
+        0x10924bDe4DeaA46768a6016f099eF7AC525a0563;
     uint8 internal LAST_FLUSHED_DAY = 1;
 
-    /* IBEP20 constants */
-    string public constant name = "Community Staking Experiment";
-    string public constant symbol = "CSE";
+    /* IERC20 constants */
+    string public constant name = "Whore Staking";
+    string public constant symbol = "WHS";
     uint8 public constant decimals = 8;
 
     /* Suns per Satoshi = 10,000 * 1e8 / 1e8 = 1e4 */
-    uint256 private constant SUNS_PER_CSE = 10**uint256(decimals); // 1e8
+    uint256 private constant SUNS_PER_WHS = 10**uint256(decimals); // 1e8
 
-    /* Time of contract launch (03-18-2021 T00:00:00Z) */
+    /* Time of contract launch (09-29-2021 T00:00:00Z) */
     uint256 internal constant LAUNCH_TIME = 1616025600;
     /* Start of claim phase */
     uint256 internal constant PRE_CLAIM_DAYS = 1;
@@ -807,12 +805,12 @@ contract GlobalsAndUtility is CSE_Binance {
         _globalsLoad(g, gSnapshot);
 
         /* Skip pre-claim period */
-        require(g._currentDay > CLAIM_PHASE_START_DAY, "CSE: Too early");
+        require(g._currentDay > CLAIM_PHASE_START_DAY, "WHS: Too early");
 
         if (beforeDay != 0) {
             require(
                 beforeDay <= g._currentDay,
-                "CSE: beforeDay cannot be in the future"
+                "WHS: beforeDay cannot be in the future"
             );
 
             _dailyDataUpdate(g, beforeDay, false);
@@ -843,7 +841,7 @@ contract GlobalsAndUtility is CSE_Binance {
     {
         require(
             beginDay < endDay && endDay <= globals.dailyDataCount,
-            "CSE: range invalid"
+            "WHS: range invalid"
         );
 
         _dayStakeSharesTotal = new uint256[](endDay - beginDay);
@@ -884,7 +882,7 @@ contract GlobalsAndUtility is CSE_Binance {
     }
 
     /**
-     * @dev PUBLIC FACING: IBEP20 totalSupply() is the circulating supply and does not include any
+     * @dev PUBLIC FACING: IERC20 totalSupply() is the circulating supply and does not include any
      * staked Suns. allocatedSupply() includes both.
      * @return Allocated Supply in Suns
      */
@@ -974,7 +972,7 @@ contract GlobalsAndUtility is CSE_Binance {
         /* Ensure caller's stakeIndex is still current */
         require(
             stakeIdParam == stRef.stakeId,
-            "CSE: stakeIdParam not in stake"
+            "WHS: stakeIdParam not in stake"
         );
 
         st._stakeId = stRef.stakeId;
@@ -1218,7 +1216,7 @@ contract StakeableToken is GlobalsAndUtility {
         /* Enforce the minimum stake time */
         require(
             newStakedDays >= MIN_STAKE_DAYS,
-            "CSE: newStakedDays lower than minimum"
+            "WHS: newStakedDays lower than minimum"
         );
 
         /* Check if log data needs to be updated */
@@ -1249,10 +1247,10 @@ contract StakeableToken is GlobalsAndUtility {
         _globalsLoad(g, gSnapshot);
 
         /* require() is more informative than the default assert() */
-        require(stakeLists[stakerAddr].length != 0, "CSE: Empty stake list");
+        require(stakeLists[stakerAddr].length != 0, "WHS: Empty stake list");
         require(
             stakeIndex < stakeLists[stakerAddr].length,
-            "CSE: stakeIndex invalid"
+            "WHS: stakeIndex invalid"
         );
 
         StakeStore storage stRef = stakeLists[stakerAddr][stakeIndex];
@@ -1264,11 +1262,11 @@ contract StakeableToken is GlobalsAndUtility {
         /* Stake must have served full term */
         require(
             g._currentDay >= st._lockedDay + st._stakedDays,
-            "CSE: Stake not fully served"
+            "WHS: Stake not fully served"
         );
 
         /* Stake must still be locked */
-        require(st._unlockedDay == 0, "CSE: Stake already unlocked");
+        require(st._unlockedDay == 0, "WHS: Stake already unlocked");
 
         /* Check if log data needs to be updated */
         _dailyDataUpdateAuto(g);
@@ -1319,8 +1317,8 @@ contract StakeableToken is GlobalsAndUtility {
         StakeStore[] storage stakeListRef = stakeLists[msg.sender];
 
         /* require() is more informative than the default assert() */
-        require(stakeListRef.length != 0, "CSE: Empty stake list");
-        require(stakeIndex < stakeListRef.length, "CSE: stakeIndex invalid");
+        require(stakeListRef.length != 0, "WHS: Empty stake list");
+        require(stakeIndex < stakeListRef.length, "WHS: stakeIndex invalid");
 
         /* Get stake copy */
         StakeCache memory st;
@@ -1426,7 +1424,7 @@ contract StakeableToken is GlobalsAndUtility {
         /* Enforce the maximum stake time */
         require(
             newStakedDays <= MAX_STAKE_DAYS,
-            "CSE: newStakedDays higher than maximum"
+            "WHS: newStakedDays higher than maximum"
         );
 
         uint256 bonusSuns = _stakeStartBonusSuns(newStakedSuns, newStakedDays);
@@ -1436,7 +1434,7 @@ contract StakeableToken is GlobalsAndUtility {
         /* Ensure newStakedSuns is enough for at least one stake share */
         require(
             newStakeShares != 0,
-            "CSE: newStakedSuns must be at least minimum shareRate"
+            "WHS: newStakedSuns must be at least minimum shareRate"
         );
 
         /*
@@ -1578,7 +1576,7 @@ contract StakeableToken is GlobalsAndUtility {
 
             BIGGER PAYS BETTER:
 
-            Bonus percentage scaled 0% to 10% for the first 7M CSE of stake.
+            Bonus percentage scaled 0% to 10% for the first 7M WHS of stake.
 
             biggerBonus%    = (cappedSuns /  BPB_MAX_SUNS) * 10%
                             = (cappedSuns /  BPB_MAX_SUNS) / 10
@@ -1833,13 +1831,13 @@ contract TransformableToken is StakeableToken {
 
     /**
      * @dev PUBLIC FACING: Enter the auction lobby for the current round
-     * @param referrerAddr TRX address of referring user (optional; 0x0 for no referrer)
+     * @param referrerAddr MATIC address of referring user (optional; 0x0 for no referrer)
      */
     function xfLobbyEnter(address referrerAddr) external payable {
         uint256 enterDay = _currentDay();
 
         uint256 rawAmount = msg.value;
-        require(rawAmount != 0, "CSE: Amount required");
+        require(rawAmount != 0, "WHS: Amount required");
 
         XfLobbyQueueStore storage qRef = xfLobbyMembers[enterDay][msg.sender];
 
@@ -1860,7 +1858,7 @@ contract TransformableToken is StakeableToken {
      * @param count Number of queued-enters to exit (optional; 0 for all)
      */
     function xfLobbyExit(uint256 enterDay, uint256 count) external {
-        require(enterDay < _currentDay(), "CSE: Round is not complete");
+        require(enterDay < _currentDay(), "WHS: Round is not complete");
 
         XfLobbyQueueStore storage qRef = xfLobbyMembers[enterDay][msg.sender];
 
@@ -1868,11 +1866,11 @@ contract TransformableToken is StakeableToken {
         uint256 endIndex;
 
         if (count != 0) {
-            require(count <= qRef.tailIndex - headIndex, "CSE: count invalid");
+            require(count <= qRef.tailIndex - headIndex, "WHS: count invalid");
             endIndex = headIndex + count;
         } else {
             endIndex = qRef.tailIndex;
-            require(headIndex < endIndex, "CSE: count invalid");
+            require(headIndex < endIndex, "WHS: count invalid");
         }
 
         uint256 waasLobby = _waasLobby(enterDay);
@@ -1927,7 +1925,7 @@ contract TransformableToken is StakeableToken {
     {
         require(
             beginDay < endDay && endDay <= _currentDay(),
-            "CSE: invalid range"
+            "WHS: invalid range"
         );
 
         list = new uint256[](endDay - beginDay);
@@ -1950,9 +1948,9 @@ contract TransformableToken is StakeableToken {
         GlobalsCache memory gSnapshot;
         _globalsLoad(g, gSnapshot);
 
-        require(address(this).balance != 0, "CSE: No value");
+        require(address(this).balance != 0, "WHS: No value");
 
-        require(LAST_FLUSHED_DAY < _currentDay(), "CSE: Invalid day");
+        require(LAST_FLUSHED_DAY < _currentDay(), "WHS: Invalid day");
 
         _dailyDataUpdateAuto(g);
 
@@ -1968,10 +1966,10 @@ contract TransformableToken is StakeableToken {
     /**
      * @dev PUBLIC FACING: Return a current lobby member queue entry.
      * Only needed due to limitations of the standard ABI encoder.
-     * @param memberAddr TRX address of the lobby member
+     * @param memberAddr MATIC address of the lobby member
      * @param enterDay enterDay
      * @param entryIndex entryIndex
-     * @return 1: Raw amount that was entered with; 2: Referring TRX addr (optional; 0x0 for no referrer)
+     * @return 1: Raw amount that was entered with; 2: Referring WHS addr (optional; 0x0 for no referrer)
      */
     function xfLobbyEntry(
         address memberAddr,
@@ -1981,14 +1979,14 @@ contract TransformableToken is StakeableToken {
         XfLobbyEntryStore storage entry =
             xfLobbyMembers[enterDay][memberAddr].entries[entryIndex];
 
-        require(entry.rawAmount != 0, "CSE: Param invalid");
+        require(entry.rawAmount != 0, "WHS: Param invalid");
 
         return (entry.rawAmount, entry.referrerAddr);
     }
 
     /**
      * @dev PUBLIC FACING: Return the lobby days that a user is in with a single call
-     * @param memberAddr TRX address of the user
+     * @param memberAddr MATIC address of the user
      * @return Bit vector of lobby day numbers
      */
     function xfLobbyPendingDays(address memberAddr)
@@ -2011,7 +2009,7 @@ contract TransformableToken is StakeableToken {
     }
 
     function _waasLobby(uint256 enterDay) private returns (uint256 waasLobby) {
-        /* 1342465753424 = ~ 4900000 * SUNS_PER_CSE / 365 */
+        /* 1342465753424 = ~ 4900000 * SUNS_PER_WHS / 365 */
         if (enterDay > 0 && enterDay <= 365) {
             waasLobby = CLAIM_STARTING_AMOUNT - ((enterDay - 1));
         } else {
@@ -2037,7 +2035,7 @@ contract TransformableToken is StakeableToken {
     }
 }
 
-contract CSE is TransformableToken {
+contract WHS is TransformableToken {
     constructor() public {
         owner = msg.sender;
         /* Initialize global shareRate to 1 */
